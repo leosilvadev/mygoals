@@ -1,6 +1,11 @@
 *.class
+.classpath
+.gradle/
+.project
+.settings/
+build/
 
-# Mobile Tools for Java (J2ME)
+bin/
 .mtj.tmp/
 
 # Package Files #

@@ -1,26 +1,19 @@
 package com.leosilvadev.mygoals.routers
 
-import groovy.transform.CompileStatic
-import groovy.transform.TypeChecked
+import static io.vertx.core.http.HttpMethod.*
 import io.vertx.groovy.core.Vertx
 import io.vertx.groovy.ext.web.Router
+import io.vertx.groovy.ext.web.handler.BodyHandler
 
 import com.leosilvadev.mygoals.apis.GoalsApi
 
-class GoalsRouter extends AppRouter {
+class GoalsRouter {
 	
-	static GoalsRouter from(Vertx vertx){
-		new GoalsRouter(vertx)
-	}
-	
-	private GoalsRouter(Vertx vertx) {
-		super(vertx)
-		routes = routes + listAll
-	}
-	
-	private def listAll = { Vertx vertx ->
+	static Router get(Vertx vertx) {
 		Router router = Router.router(vertx)
-		router.route("/").handler(GoalsApi.listAll)
+		router.route().handler(BodyHandler.create())
+		router.get('/goals').handler(GoalsApi.listAll)
+		router.post('/goals').consumes('application/json').handler(GoalsApi.save)
 		router
 	}
 	

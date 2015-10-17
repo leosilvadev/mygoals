@@ -1,8 +1,12 @@
 package com.leosilvadev.mygoals.persistence
 
+import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
 import io.vertx.groovy.core.Vertx
 import io.vertx.groovy.ext.mongo.MongoClient
 
+@CompileStatic
+@TypeChecked
 class MongoDB {
 
 	private static MongoClient client
@@ -11,7 +15,7 @@ class MongoDB {
 		client = MongoClient.createShared(vertx, config)
 	}
 	
-	static def execute(Closure function, onError=null){
+	static def execute(Closure function, Closure onError=null){
 		try {
 			function(client)
 			

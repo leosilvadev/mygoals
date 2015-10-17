@@ -21,7 +21,7 @@ class GoalsApi {
 				Stream
 					.from(res.result())
 					.map { Goal.map(it) }
-					.each { response.write(Json.encode(it)) }
+					.each { response.write(Json.encode(it.map())) }
 				response.end()
 			})
 		}
@@ -31,6 +31,7 @@ class GoalsApi {
 		def response = context.response().setChunked(true)
 		mongo.execute { MongoClient client ->
 			Goal goal = Goal.fromJson(context.getBodyAsJson())
+			println goal.map()
 			client.insert(COLLECTION_NAME, goal.map(), { FutureImpl res ->
 				if(res.succeeded()){
 					response.setStatusCode(201).write(Json.encode([message:'Goal saved successfully'])).end()
